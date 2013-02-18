@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+  TWEET=`pbpaste`
+  echo -e "No argument supplied, checking clipboard:\n"
+  echo -e "\t$TWEET"
+  echo
+else
+  TWEET=$1
+fi
+
+if [ -z "$TWEET" ]; then
+  echo "argh... either an empty argument or nothing in the clipboard to check!"
+  echo "example usage:"
+  echo
+  echo -e "\t$ ${0##*/} \"hello, world\""
+  echo -e "\t$ ${0##*/} # checks whatever is in your clipboard"
+  echo
+  exit 1
+fi
+
+COUNT=${#TWEET}
+DIFF=$((140 - $COUNT))
+
+if [ $COUNT -le "140" ]; then
+  echo "Tweet away! ($DIFF characters remaining)"
+else
+  echo "Shucks, that's $(($DIFF * -1)) characters too long."
+fi
